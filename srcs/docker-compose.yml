@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    restart: always # ?
+    env_file: .env
+      # - .env
+    expose: '3306'
+      # - "3306"
+    networks: intra
+      # - intra
+    volumes: db:/var/lib/mysql
+      # - db:/var/lib/mysql
+    tty: true
+
+volumes:
+  db:
+    driver: local # ?
+    driver_pots:
+      type: none
+      o: bind # ? 책을 봐야할듯
+      device: ${VOLUME_PATH_DB}
+
+networks:
+  intra:
+    driver: bridge # ?

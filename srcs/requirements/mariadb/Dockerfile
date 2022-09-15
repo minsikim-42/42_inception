@@ -12,6 +12,6 @@ RUN \
 # COPY	./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 # COPY	./tools/entrypoint.sh /tmp/entrypoint.sh
 
-RUN	chmod +x /tmp/entrypoint.sh
+# RUN	chmod +x /tmp/entrypoint.sh
 
 # 접근 EXPOSE : docker-compose 

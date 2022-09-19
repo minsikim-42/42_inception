@@ -2,6 +2,9 @@ include ./srcs/.env
 export $(shell sed 's/=.*//' ./srcs/.env)
 
 all:
+	mkdir -p ${VOLUME_PATH}
+	mkdir -p ${VOLUME_PATH_DB}
+	mkdir -p ${VOLUME_PATH_WP}
 	docker-compose -p $(NAME) -f srcs/docker-compose.yml up -d --build
 
 clean:

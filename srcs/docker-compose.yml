@@ -3,27 +3,80 @@ version: '3'
 services:
   mariadb:
     build: ./requirements/mariadb
+# ~에 설치하겠다, 없으면 hub에서 기본설치
     image: mariadb
+# 컨테이를 생성할때 사용할 이미지를 설정함
     container_name: mariadb
-    restart: always # ?
-    env_file: .env
-      # - .env
-    expose: '3306'
-      # - "3306"
-    networks: intra
-      # - intra
-    volumes: db:/var/lib/mysql
-      # - db:/var/lib/mysql
+    restart: always
+    env_file:
+      - .env
+    expose:
+      - "3306"
+# 열어줄 포트
+    networks:
+      - intra
+# 내부망?
+    volumes:
+      - db:/var/lib/mysql
+# 저장소
+    tty: true
+# 컨테이너 커멘드가 끝나면 종료되지않고 'keep running'
+# docker run -t 와 같은 커멘드
+
+
+  wordpress:
+    depends_on:
+      - mariadb
+# 의존관계, 해당 컨테이너가 먼저 실행되고 실행됨
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    restart: always
+# 컨테이너가 종료되고 도커를 재시작 할지
+    env_file:
+        - .env
+    volumes:
+        - wp:/var/www/html
+    expose: 
+        - "9000"
+    networks:
+        - intra
+    tty: true
+
+
+  nginx:
+    depends_on:
+      - wordpress
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginx
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "443:443"
+# same to 'docker run -p', 컨테이너에 개방할 포트 설정
+    volumes:
+      - wp:/var/www/html
+    networks:
+      - intra
     tty: true
 
 volumes:
-  db:
-    driver: local # ?
-    driver_pots:
+  db: # {}
+    driver: local
+    driver_opts:
       type: none
-      o: bind # ? 책을 봐야할듯
+      o: bind
       device: ${VOLUME_PATH_DB}
+
+  wp: # {}
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOLUME_PATH_WP}
 
 networks:
   intra:
-    driver: bridge # ?
+    driver: bridge

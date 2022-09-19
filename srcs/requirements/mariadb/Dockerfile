@@ -10,8 +10,11 @@ RUN \
 	apt-get install -y mariadb-server vim procps
 
 # COPY	./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-# COPY	./tools/entrypoint.sh /tmp/entrypoint.sh
+COPY	./tools/entrypoint.sh /tmp/entrypoint.sh
 
-# RUN	chmod +x /tmp/entrypoint.sh
+RUN	chmod +x /tmp/entrypoint.sh
+
+# 컨테이너 생성시 동작, PID 1로 강제 실행
+ENTRYPOINT      ["./tmp/entrypoint.sh"]
 
 # 접근 EXPOSE : docker-compose 

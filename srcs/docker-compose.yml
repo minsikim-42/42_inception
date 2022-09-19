@@ -70,7 +70,7 @@ volumes:
       o: bind
       device: ${VOLUME_PATH_DB}
 
-  wp: # {}
+  wp:
     driver: local
     driver_opts:
       type: none

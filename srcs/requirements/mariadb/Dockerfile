@@ -6,9 +6,9 @@ MAINTAINER minsikim <spalstlr321@naver.com>
 
 # image가 올라갔을 때 수행되는 명령어
 RUN \
-	mkdir -p ${VOLUME_PATH}
-	mkdir -p ${VOLUME_PATH_DB}
-	mkdir -p ${VOLUME_PATH_WP}
+	mkdir -p ${VOLUME_PATH} && \
+	mkdir -p ${VOLUME_PATH_DB} && \
+	mkdir -p ${VOLUME_PATH_WP} && \
 	apt-get update && apt-get -y upgrade && \
 	apt-get install -y mariadb-server vim procps
 

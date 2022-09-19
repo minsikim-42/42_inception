@@ -8,7 +8,7 @@ RUN 	apt-get update && apt-get -y upgrade \
 		&& mv inception.crt /etc/ssl/certs/ \
 		&& mv inception.key /etc/ssl/private/
 
-COPY	./conf/nginx.cnf /etc/nginx/sites-enabled/default
+COPY	./conf/nginx.conf /etc/nginx/sites-enabled/default
 
 ENTRYPOINT	["nginx", "-g", "daemon off;"]
 

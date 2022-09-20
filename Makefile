@@ -10,3 +10,6 @@ all:
 clean:
 	docker-compose -p $(NAME) -f srcs/docker-compose.yml down --rmi all --volumes
 	sudo rm -fr ${VOLUME_PATH}
+
+fclean: clean
+	docker system prune --force --all

@@ -2,9 +2,11 @@ include ./srcs/.env
 export $(shell sed 's/=.*//' ./srcs/.env)
 
 all:
-	mkdir -p ${VOLUME_PATH}
 	mkdir -p ${VOLUME_PATH_DB}
 	mkdir -p ${VOLUME_PATH_WP}
+	sudo chmod +x /etc/hosts
+	sed -i '/${DOMAIN_NAME}/d' /etc/hosts
+	echo "0.0.0.0 ${DOMAIN_NAME}" >> /etc/hosts
 	docker-compose -p $(NAME) -f srcs/docker-compose.yml up -d --build
 
 clean:
